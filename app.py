@@ -8,7 +8,7 @@ import uvloop
 # ========================
 API_ID = 22439207
 API_HASH = '52d91e24dd0e4331a89556a9b9ef65da'
-PHONE_NUMBER = '+213XXXXXXXX'  # ضع الرقم الجديد هنا
+PHONE_NUMBER = '+213542067920'  # ضع الرقم الجديد هنا
 SESSION_NAME = 'auto_fisher_session'
 # ========================
 
