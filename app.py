@@ -4,10 +4,12 @@ from telethon import TelegramClient, events
 import uvloop
 
 # ========================
-# 👇 تم وضع معلومات حسابك
+# 👇 معلومات حسابك
 # ========================
-API_ID = 22439207  # API ID الخاص بك
-API_HASH = '52d91e24dd0e4331a89556a9b9ef65da'  # API HASH الخاص بك
+API_ID = 22439207
+API_HASH = '52d91e24dd0e4331a89556a9b9ef65da'
+PHONE_NUMBER = '+213795593141'  # رقم هاتفك
+PASSWORD = 'Ramzi/2003'  # كلمة مرور两步 التحقق
 SESSION_NAME = 'auto_fisher_session'
 # ========================
 
@@ -29,7 +31,7 @@ TARGET_BOTS = [
 ]
 
 # ========================
-# باقي الكود - لا تغير فيه شيء
+# باقي الكود - لا تغير
 # ========================
 
 uvloop.install()
@@ -85,7 +87,8 @@ async def hunt_handler(event):
         processed_codes.clear()
 
 async def main():
-    await client.start()
+    # بدء الجلسة مع رقم الهاتف وكلمة المرور
+    await client.start(phone=PHONE_NUMBER, password=PASSWORD)
     me = await client.get_me()
     print("=" * 60)
     print("🔥 نظام الصيد الفوري شغال!")
