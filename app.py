@@ -52,3 +52,4 @@ async def attack_single_bot(bot_username, code):
         ultra_fast_send(bot_username, code)
     ]
     await asyncio.gather(*tasks,
+    
