@@ -9,7 +9,7 @@ import uvloop
 API_ID = 22439207
 API_HASH = '52d91e24dd0e4331a89556a9b9ef65da'
 PHONE_NUMBER = '+213542067920'  # رقم هاتفك
-PASSWORD = 'Ramzi/2003'  # كلمة مرور两步 التحقق
+await client.start(phone=PHONE_NUMBER)  # كلمة مرور两步 التحقق
 SESSION_NAME = 'auto_fisher_session'
 # ========================
 
