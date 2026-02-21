@@ -22,13 +22,24 @@ TARGET_BOTS = [
 
 uvloop.install()
 
-# استعادة الجلسة من base64
-if os.path.exists('session_base64.txt'):
+# قراءة وفك تشفير الجلسة
+try:
     with open('session_base64.txt', 'r') as f:
-        session_data = base64.b64decode(f.read().strip())
+        session_base64 = f.read().strip()
+    
+    # فك التشفير وكتابة الملف
+    session_data = base64.b64decode(session_base64)
     with open(f'{SESSION_NAME}.session', 'wb') as f:
         f.write(session_data)
-    print("✅ تم استعادة الجلسة")
+    print(f"✅ تم إنشاء ملف الجلسة: {SESSION_NAME}.session بحجم {len(session_data)} بايت")
+except Exception as e:
+    print(f"❌ خطأ في قراءة ملف الجلسة: {e}")
+
+# التحقق من وجود الملف
+if os.path.exists(f'{SESSION_NAME}.session'):
+    print(f"✅ ملف الجلسة موجود بحجم {os.path.getsize(f'{SESSION_NAME}.session')} بايت")
+else:
+    print("❌ ملف الجلسة غير موجود!")
 
 client = TelegramClient(SESSION_NAME, API_ID, API_HASH)
 
@@ -42,8 +53,8 @@ def extract_codes(text):
 async def ultra_fast_send(bot_username, text):
     try:
         await client.send_message(bot_username, text)
-    except:
-        pass
+    except Exception as e:
+        print(f"⚠️ خطأ في الإرسال: {e}")
 
 async def attack_single_bot(bot_username, code):
     tasks = [
@@ -73,22 +84,33 @@ async def hunt_handler(event):
     codes = extract_codes(text)
     if not codes: return
     
+    print(f"🎯 تم العثور على {len(codes)} كود")
     for code in codes:
         if code in processed_codes:
             continue
         processed_codes.add(code)
+        print(f"🚀 إرسال {code}")
         await attack_all_bots(code)
     
     if len(processed_codes) > 1000:
         processed_codes.clear()
 
 async def main():
+    if not os.path.exists(f'{SESSION_NAME}.session'):
+        print("❌ لا يمكن البدء: ملف الجلسة غير موجود!")
+        return
+        
     await client.start()
     me = await client.get_me()
+    print("=" * 60)
     print("🔥 نظام الصيد الفوري شغال!")
+    print("=" * 60)
     print(f"👤 الحساب: {me.first_name}")
     print(f"📡 مراقبة {len(CHANNELS)} قناة")
+    print(f"🎯 استهداف {len(TARGET_BOTS)} بوت")
+    print("=" * 60)
     print("⚡ في انتظار الأكواد...")
+    print("=" * 60)
     await client.run_until_disconnected()
 
 if __name__ == '__main__':
